@@ -1,45 +1,45 @@
 import {
   View,
   Text,
+  Pressable,
   TouchableOpacity,
   ScrollView,
-  StyleSheet,
+  TextInput,
 } from "react-native";
 import React, { useState } from "react";
-import EmergencyConnectHeading from "../components/EmergencyConnectHeading";
-import { TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Entypo } from "@expo/vector-icons";
 
-const RegisterScreen = ({ navigation }) => {
+const EditProfileScreen = ({ navigation }) => {
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
   const [Age, setAge] = useState("");
   const [BloodGroup, setBloodGroup] = useState("");
   const [Gender, setGender] = useState("");
-  const [Password, setPassword] = useState("");
 
-  const handleRegister = () => {
-    console.log(
-      "Register Pressed: ",
-      Name,
-      Email,
-      Phone,
-      Age,
-      BloodGroup,
-      Gender,
-      Password
-    );
-    navigation.navigate("tabsHome");
+  const handleSave = () => {
+    navigation.navigate("profile");
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }} className="px-6 ">
-      <EmergencyConnectHeading />
+    <SafeAreaView style={{ flex: 1 }} className="px-6">
+      <Pressable
+        onPress={() => navigation.goBack()}
+        className="flex flex-row items-center justify-start mt-5"
+      >
+        <Entypo className="" name="chevron-left" size={25} color={"#676767"} />
+      </Pressable>
+
+      <View className="flex items-center justify-center space-y-4">
+        <Text className="text-xl text-center mt-5">Edit Profile</Text>
+        <View className="bg-my_gray w-28 h-28 rounded-full flex items-center justify-center "></View>
+      </View>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
-        className="flex w-full space-y-2  mt-5"
+        className="flex w-full space-y-2  mt-5 "
       >
         <View className="w-full">
           <Text className="font-bold text-lg text-gray-600">Name</Text>
@@ -101,22 +101,13 @@ const RegisterScreen = ({ navigation }) => {
             placeholder="Enter your Gender"
           />
         </View>
-        <View className="w-full">
-          <Text className="font-bold text-lg text-gray-600">Password</Text>
-          <TextInput
-            textContentType="password"
-            className="bg-gray-200 mt-2 rounded-full w-full p-2 px-4"
-            defaultValue={Password}
-            onChangeText={(text) => setPassword(text)}
-            placeholder="Enter your Password"
-          />
-        </View>
+
         <View className="w-full">
           <TouchableOpacity
-            onPress={handleRegister}
-            className="bg-my_accent mt-4 w-full p-2 rounded-full shadow-lg  flex items-center justify-center "
+            onPress={handleSave}
+            className="bg-my_primary mt-4 w-full p-2 rounded-full shadow-lg  flex items-center justify-center "
           >
-            <Text className="text-white font-bold text-lg">Register</Text>
+            <Text className="text-white font-bold text-lg">Save Changes</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -124,4 +115,4 @@ const RegisterScreen = ({ navigation }) => {
   );
 };
 
-export default RegisterScreen;
+export default EditProfileScreen;

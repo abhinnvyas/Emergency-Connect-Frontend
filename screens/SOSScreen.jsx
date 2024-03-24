@@ -8,7 +8,7 @@ import SOSButton from "../components/SOSScreen/SOSButton";
 const SOSScreen = ({ navigation }) => {
   return (
     <SafeAreaView className="px-6">
-      <Header />
+      <Header navigation={navigation} />
 
       <View className="flex w-full items-center justify-center mt-[50%]">
         <SOSButton navigation={navigation} />
