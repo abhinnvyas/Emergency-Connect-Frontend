@@ -8,6 +8,7 @@ import BottomTabsNavigator from "./BottomTabsNavigator";
 import ActiveAlertScreen from "../screens/ActiveAlertScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
+import YourAlertsScreen from "../screens/YourAlertsScreen";
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ const StackNavigator = () => {
       <Stack.Screen name="activeAlert" component={ActiveAlertScreen} />
       <Stack.Screen name="profile" component={ProfileScreen} />
       <Stack.Screen name="editProfile" component={EditProfileScreen} />
+      <Stack.Screen name="yourAlerts" component={YourAlertsScreen} />
 
       {/* Home Screen  */}
       <Stack.Screen name="tabsHome" component={BottomTabsNavigator} />
