@@ -7,7 +7,7 @@ const CompletedCard = ({ isCompleted }) => {
   const EmergencyType = "General";
   const updatedAt = "5 minutes ago";
   return (
-    <View className="bg-my_gray rounded-2xl p-4">
+    <View className="bg-my_gray rounded-2xl p-4 shadow-md shadow-black">
       <View className="flex flex-row items-start justify-between mt-2">
         <View>
           <Text className="text-xl font-semibold">{Name}</Text>

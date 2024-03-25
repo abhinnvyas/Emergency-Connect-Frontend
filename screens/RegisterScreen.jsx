@@ -4,10 +4,10 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  TextInput,
 } from "react-native";
 import React, { useState } from "react";
 import EmergencyConnectHeading from "../components/EmergencyConnectHeading";
-import { TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const RegisterScreen = ({ navigation }) => {
@@ -38,7 +38,8 @@ const RegisterScreen = ({ navigation }) => {
       <EmergencyConnectHeading />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        style={{ height: "80%" }}
+        contentContainerStyle={{ paddingBottom: 50 }}
         className="flex w-full space-y-2  mt-5"
       >
         <View className="w-full">
@@ -111,15 +112,15 @@ const RegisterScreen = ({ navigation }) => {
             placeholder="Enter your Password"
           />
         </View>
-        <View className="w-full">
-          <TouchableOpacity
-            onPress={handleRegister}
-            className="bg-my_accent mt-4 w-full p-2 rounded-full shadow-lg  flex items-center justify-center "
-          >
-            <Text className="text-white font-bold text-lg">Register</Text>
-          </TouchableOpacity>
-        </View>
       </ScrollView>
+      <View className="w-full mb-10">
+        <TouchableOpacity
+          onPress={handleRegister}
+          className="bg-my_accent mt-4 w-full p-2 rounded-full shadow-lg  flex items-center justify-center "
+        >
+          <Text className="text-white font-bold text-lg">Register</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };

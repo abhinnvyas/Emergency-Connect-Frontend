@@ -9,6 +9,7 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Entypo } from "@expo/vector-icons";
+import ImageUpload from "../components/Edit Profile/ImageUpload";
 
 const EditProfileScreen = ({ navigation }) => {
   const [Name, setName] = useState("");
@@ -33,7 +34,7 @@ const EditProfileScreen = ({ navigation }) => {
 
       <View className="flex items-center justify-center space-y-4">
         <Text className="text-xl text-center mt-5">Edit Profile</Text>
-        <View className="bg-my_gray w-28 h-28 rounded-full flex items-center justify-center "></View>
+        <ImageUpload />
       </View>
 
       <ScrollView

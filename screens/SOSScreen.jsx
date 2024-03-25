@@ -12,7 +12,7 @@ const SOSScreen = ({ navigation }) => {
 
       <View className="flex w-full items-center justify-center mt-[50%]">
         <SOSButton navigation={navigation} />
-        <View className="w-full mt-8">
+        <View className="w-full mt-8 ">
           <SelectEmergencyType />
         </View>
       </View>

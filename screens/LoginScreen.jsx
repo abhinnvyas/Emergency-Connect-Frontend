@@ -39,9 +39,17 @@ const LoginScreen = ({ navigation }) => {
         <View className="w-full">
           <TouchableOpacity
             onPress={handleLogin}
-            className="bg-my_accent mt-4 w-full p-2 rounded-full shadow-lg  flex items-center justify-center "
+            className="bg-my_accent mt-4 w-full p-2 rounded-full shadow-md shadow-black  flex items-center justify-center "
           >
             <Text className="text-white font-bold text-lg">Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("register")}
+            className=" w-full p-2 mt-4 border border-my_accent bg-transparent rounded-full flex items-center justify-center "
+          >
+            <Text className="text-my_accent font-semibold text-md">
+              New here? Register Now
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

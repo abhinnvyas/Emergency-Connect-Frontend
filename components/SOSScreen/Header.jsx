@@ -16,7 +16,7 @@ const Header = ({ navigation }) => {
       <View>
         <TouchableOpacity
           onPress={() => navigation.navigate("profile")}
-          className="bg-gray-200 w-12 h-12 flex items-center justify-center rounded-full"
+          className="bg-gray-200 w-12 h-12 flex items-center justify-center rounded-full "
         >
           <Text className="text-gray-500 text-2xl font-semibold">A</Text>
         </TouchableOpacity>
