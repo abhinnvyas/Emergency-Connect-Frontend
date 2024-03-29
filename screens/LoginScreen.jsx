@@ -1,15 +1,64 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import React, { useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import EmergencyConnectHeading from "../components/EmergencyConnectHeading";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { login } from "../services/auth";
+import Toast from "react-native-toast-message";
+import DefaultModal from "../components/Modal/DefaultModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = ({ navigation }) => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleLogin = () => {
-    console.log("Login Pressed: ", Email, Password);
-    navigation.navigate("register");
+    if (!Email || !Password) {
+      Toast.show({
+        type: "error",
+        text1: "Required Fields Missing",
+        text2: "Please enter your email and password to login.",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    login(Email, Password)
+      .then((response) => {
+        console.log("Response: ", response);
+        if (!response) {
+          Toast.show({
+            type: "info",
+            text1: "Failed to Log you in.",
+            text2: "Something unexpected occured. Please try again.",
+          });
+          setIsLoading(false);
+          return;
+        }
+        if (response.status) {
+          Toast.show({
+            type: "success",
+            text1: "Login Successful",
+            text2: response.msg,
+          });
+          // Save the token in the Context-API or the Local Storage
+        } else {
+          Toast.show({
+            type: "error",
+            text1: "Login Failed",
+            text2: response.msg,
+          });
+        }
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(
+          "Error at screens/LoginScreen.jsx: handleLogin() : ",
+          error
+        );
+      });
   };
   return (
     <SafeAreaView className="flex-1 items-center justify-center px-6">
@@ -53,6 +102,13 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
+
+      <DefaultModal isVisible={isLoading}>
+        <ActivityIndicator size={"medium"} color={"#FF8934"} />
+        <Text className="text-my_accent font-bold text-lg mt-2">
+          Please Wait
+        </Text>
+      </DefaultModal>
     </SafeAreaView>
   );
 };
