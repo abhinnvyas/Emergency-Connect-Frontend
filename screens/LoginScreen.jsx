@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { login } from "../services/auth";
 import Toast from "react-native-toast-message";
 import DefaultModal from "../components/Modal/DefaultModal";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 
 const LoginScreen = ({ navigation }) => {
   const [Email, setEmail] = useState("");
@@ -44,6 +44,17 @@ const LoginScreen = ({ navigation }) => {
             text2: response.msg,
           });
           // Save the token in the Context-API or the Local Storage
+          SecureStore.setItemAsync("token", response.token)
+            .then(() => {
+              navigation.navigate("home");
+            })
+            .catch((err) => {
+              Toast.show({
+                type: "error",
+                text1: "Try Again",
+                text2: "Please Try again.",
+              });
+            });
         } else {
           Toast.show({
             type: "error",
