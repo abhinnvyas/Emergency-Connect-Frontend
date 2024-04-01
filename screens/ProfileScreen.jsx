@@ -15,6 +15,8 @@ import * as SecureStore from "expo-secure-store";
 import Toast from "react-native-toast-message";
 import DefaultModal from "../components/Modal/DefaultModal";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { removeToken } from "../redux/slices/tokenSlice";
 
 const ProfileScreen = ({}) => {
   const navigation = useNavigation();
@@ -25,6 +27,7 @@ const ProfileScreen = ({}) => {
   const Age = 20;
   const Gender = "Male";
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
     // navigation.navigate("login");
@@ -32,12 +35,13 @@ const ProfileScreen = ({}) => {
     SecureStore.deleteItemAsync("token")
       .then(() => {
         setIsLoading(false);
+
         Toast.show({
           type: "success",
           text1: "Logged out Successfully",
         });
+        dispatch(removeToken());
         setIsLoading(false);
-        navigation.navigate("login");
       })
       .catch((err) => {
         console.log("Error at ProfileScreen.jsx: handleLogout() : ", err);

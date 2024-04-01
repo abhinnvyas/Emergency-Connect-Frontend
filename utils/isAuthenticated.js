@@ -1,10 +1,7 @@
-import * as SecureStore from "expo-secure-store";
+import { useSelector } from "react-redux";
+import { boolean } from "yargs";
 
 export default isAuthenticated = async () => {
-  try {
-    const token = await SecureStore.getItemAsync("token");
-    return !!token;
-  } catch (error) {
-    console.log("Error authenticating user: ", error);
-  }
+  const token = useSelector((state) => state.token.value);
+  return !!token;
 };

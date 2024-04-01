@@ -8,6 +8,7 @@ import DefaultModal from "../components/Modal/DefaultModal";
 import * as SecureStore from "expo-secure-store";
 import { login } from "../services/auth";
 import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "../redux/slices/tokenSlice";
 
 const LoginScreen = ({ navigation }) => {
   // const navigation = useNavigation();
@@ -51,7 +52,8 @@ const LoginScreen = ({ navigation }) => {
           // Save the token in the Context-API or the Local Storage
           SecureStore.setItemAsync("token", response.token)
             .then(() => {
-              navigation.navigate("tabsHome");
+              dispatch(setToken(response.token));
+              setIsLoading(false);
             })
             .catch((err) => {
               Toast.show({
