@@ -1,21 +1,52 @@
-import { View, Text, Pressable, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  Pressable,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProfileImageEdit from "../components/ProfileScreen/ProfileImageEdit";
 import ProfileDetails from "../components/ProfileScreen/ProfileDetails";
 import { Entypo } from "@expo/vector-icons";
 import YourAlerts from "../components/ProfileScreen/YourAlerts";
+import * as SecureStore from "expo-secure-store";
+import Toast from "react-native-toast-message";
+import DefaultModal from "../components/Modal/DefaultModal";
+import { useNavigation } from "@react-navigation/native";
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({}) => {
+  const navigation = useNavigation();
   const Name = "Abhinn Vyas";
   const Phone = "9301712345";
   const BloodGroup = "B+";
   const Email = "abhinnvyas@gmail.com";
   const Age = 20;
   const Gender = "Male";
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogout = () => {
-    navigation.navigate("login");
+  const handleLogout = async () => {
+    // navigation.navigate("login");
+    setIsLoading(true);
+    SecureStore.deleteItemAsync("token")
+      .then(() => {
+        setIsLoading(false);
+        Toast.show({
+          type: "success",
+          text1: "Logged out Successfully",
+        });
+        setIsLoading(false);
+        navigation.navigate("login");
+      })
+      .catch((err) => {
+        console.log("Error at ProfileScreen.jsx: handleLogout() : ", err);
+        Toast.show({
+          type: "error",
+          text1: "Please Try Again",
+        });
+        setIsLoading(false);
+      });
   };
   return (
     <SafeAreaView className="px-6 ">
@@ -44,6 +75,12 @@ const ProfileScreen = ({ navigation }) => {
       >
         <Text className="text-lg text-white font-semibold ">Logout</Text>
       </Pressable>
+      <DefaultModal isVisible={isLoading}>
+        <ActivityIndicator size={"medium"} color={"#FF8934"} />
+        <Text className="text-my_accent font-bold text-lg mt-2">
+          Please Wait
+        </Text>
+      </DefaultModal>
     </SafeAreaView>
   );
 };

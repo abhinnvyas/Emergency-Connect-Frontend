@@ -3,15 +3,21 @@ import React, { useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import EmergencyConnectHeading from "../components/EmergencyConnectHeading";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { login } from "../services/auth";
 import Toast from "react-native-toast-message";
 import DefaultModal from "../components/Modal/DefaultModal";
 import * as SecureStore from "expo-secure-store";
+import { login } from "../services/auth";
+import { useDispatch, useSelector } from "react-redux";
 
 const LoginScreen = ({ navigation }) => {
+  // const navigation = useNavigation();
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  // const token = useSelector((state) => state.token.value);
+  // dispatch(setToken(""));
 
   const handleLogin = () => {
     if (!Email || !Password) {
@@ -24,7 +30,6 @@ const LoginScreen = ({ navigation }) => {
     }
 
     setIsLoading(true);
-
     login(Email, Password)
       .then((response) => {
         console.log("Response: ", response);
@@ -46,16 +51,16 @@ const LoginScreen = ({ navigation }) => {
           // Save the token in the Context-API or the Local Storage
           SecureStore.setItemAsync("token", response.token)
             .then(() => {
-              navigation.navigate("home");
+              navigation.navigate("tabsHome");
             })
             .catch((err) => {
               Toast.show({
                 type: "error",
-                text1: "Try Again",
-                text2: "Please Try again.",
+                text1: "Please Try Again",
               });
             });
         } else {
+          // User not Found
           Toast.show({
             type: "error",
             text1: "Login Failed",
@@ -67,8 +72,14 @@ const LoginScreen = ({ navigation }) => {
       .catch((error) => {
         console.log(
           "Error at screens/LoginScreen.jsx: handleLogin() : ",
-          error
+          error.message
         );
+        Toast.show({
+          type: "error",
+          text1: "Login Failed",
+          text2: "Please try again.",
+        });
+        setIsLoading(false);
       });
   };
   return (

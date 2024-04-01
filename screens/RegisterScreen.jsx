@@ -5,10 +5,14 @@ import {
   ScrollView,
   StyleSheet,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import EmergencyConnectHeading from "../components/EmergencyConnectHeading";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
+import { register } from "../services/auth";
+import DefaultModal from "../components/Modal/DefaultModal";
 
 const RegisterScreen = ({ navigation }) => {
   const [Name, setName] = useState("");
@@ -18,6 +22,7 @@ const RegisterScreen = ({ navigation }) => {
   const [BloodGroup, setBloodGroup] = useState("");
   const [Gender, setGender] = useState("");
   const [Password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = () => {
     console.log(
@@ -30,7 +35,64 @@ const RegisterScreen = ({ navigation }) => {
       Gender,
       Password
     );
-    navigation.navigate("tabsHome");
+    if (
+      !Name ||
+      !Email ||
+      !Phone ||
+      !Age ||
+      !BloodGroup ||
+      !Gender ||
+      !Password
+    ) {
+      Toast.show({
+        type: "error",
+        text1: "Required Fields Missing",
+        text2: "Please fill all the fields to register.",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    register(Name, Email, Phone, Age, BloodGroup, Gender, Password)
+      .then((response) => {
+        console.log(response);
+        if (!response) {
+          Toast.show({
+            type: "info",
+            text1: "Registration Failed",
+            text2: "Something unexpected occured. Please try again.",
+          });
+          setIsLoading(false);
+          return;
+        }
+        if (response.status) {
+          //User Registered
+          Toast.show({
+            type: "success",
+            text1: "Registration Successful",
+            text2: response.msg,
+          });
+
+          navigation.navigate("login");
+        } else {
+          // User already exists
+          Toast.show({
+            type: "error",
+            text1: "Login Failed",
+            text2: response.msg,
+          });
+        }
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log("Error at RegisterScreen: ", error);
+        Toast.show({
+          type: "error",
+          text1: "Login Failed",
+          text2: "Please try again.",
+        });
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -121,6 +183,12 @@ const RegisterScreen = ({ navigation }) => {
           <Text className="text-white font-bold text-lg">Register</Text>
         </TouchableOpacity>
       </View>
+      <DefaultModal isVisible={isLoading}>
+        <ActivityIndicator size={"medium"} color={"#FF8934"} />
+        <Text className="text-my_accent font-bold text-lg mt-2">
+          Please Wait
+        </Text>
+      </DefaultModal>
     </SafeAreaView>
   );
 };
