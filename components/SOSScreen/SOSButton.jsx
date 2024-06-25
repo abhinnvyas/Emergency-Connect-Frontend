@@ -1,7 +1,11 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import { creatAlert } from "../../services/alerts";
 
-const SOSButton = ({ navigation }) => {
+const SOSButton = ({ navigation, SelectedEmergencyType }) => {
+  const onPress = () => {
+    creatAlert(SelectedEmergencyType, location, status, latitude, longitude);
+  };
   return (
     <View className="flex items-center justify-center bg-gray-200 shadow-lg shadow-black w-fit rounded-full p-3 ">
       <TouchableOpacity

@@ -9,14 +9,18 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import SelectEmergencyModal from "./SelectEmergencyModal";
 
-const SelectEmergencyType = () => {
+const SelectEmergencyType = ({
+  SelectedEmergencyType,
+  setSelectedEmergencyType,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [SelectedEmergencyType, setSelectedEmergencyType] = useState("General");
+  // const [SelectedEmergencyType, setSelectedEmergencyType] = useState("General");
   data = [
     { label: "General", value: "General" },
     { label: "Fire", value: "Fire" },
     { label: "Medical", value: "Medical" },
     { label: "Police", value: "Police" },
+    { label: "Ambulance", value: "Ambulance" },
   ];
 
   const closeModal = () => {

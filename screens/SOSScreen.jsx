@@ -6,14 +6,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SOSButton from "../components/SOSScreen/SOSButton";
 
 const SOSScreen = ({ navigation }) => {
+  const [SelectedEmergencyType, setSelectedEmergencyType] = useState("General");
   return (
     <SafeAreaView className="px-6">
       <Header navigation={navigation} />
 
       <View className="flex w-full items-center justify-center mt-[50%]">
-        <SOSButton navigation={navigation} />
+        <SOSButton navigation={navigation} SelectedEmergencyType />
         <View className="w-full mt-8 ">
-          <SelectEmergencyType />
+          <SelectEmergencyType SelectedEmergencyType setSelectedEmergencyType />
         </View>
       </View>
     </SafeAreaView>
